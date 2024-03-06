@@ -4,6 +4,8 @@ public class AStarSearch extends Search {
 
     private float[][] costMap;
     private Heuristic heuristic;
+
+
     public AStarSearch(float[][] costMap, Heuristic heuristic) {
         super(costMap, heuristic);
         this.costMap = costMap;
@@ -12,14 +14,18 @@ public class AStarSearch extends Search {
 
     @Override
     public List<State> DoSearch(State initialState, State targetState) {
+
         List<State> solution = new ArrayList<>();
         PriorityQueue<State> openSet = new PriorityQueue<>(Comparator.comparingDouble(State::getTotalCost));
         Set<State> closedSet = new HashSet<>();
 
-        initialState.setCostAcc(0);
+        initialState.setCostAcc(costMap[initialState.getRow()][initialState.getCol()]);
         openSet.add(initialState);
 
         while (!openSet.isEmpty()) {
+
+            incrementNodesVisited();
+
             State currentState = openSet.poll();
 
             if (currentState.equals(targetState)) {
@@ -50,6 +56,7 @@ public class AStarSearch extends Search {
                 }
             }
         }
+
 
         return solution.isEmpty() ? null : solution;
     }

@@ -1,5 +1,4 @@
 import java.util.List;
-import java.util.Scanner;
 
 public class Main {
 
@@ -48,14 +47,13 @@ public class Main {
       algorithms[4] = new AStarSearch(map.getCostMap(), heuristics[1]);      
       algorithms[5] = new AStarSearch(map.getCostMap(), heuristics[2]);
 
-      @SuppressWarnings("resource")
-      Scanner scanner = new Scanner(System.in);
 
       for (int i = 0; i < algorithms.length; i++) {
         
         long start = System.currentTimeMillis();
         Search algorithm = algorithms[i];
         List<State> path = algorithm.DoSearch(iniState, finalState);
+
         long end = System.currentTimeMillis();
 
         System.out.println("Resultados del algoritmo " + (i + 1) + ":");
@@ -70,12 +68,8 @@ public class Main {
             long elapsedTime = end - start;
             double seconds = elapsedTime / 1000.0;
             System.out.println("Temps: "+ seconds + "s");
-            System.out.println("Numero d'estats visitats:" + path.size());
+            System.out.println("Numero d'estats visitats:"+ algorithm.getNodesVisitats());
         }
-
-        System.out.println("Presiona Enter para continuar...");
-        scanner.nextLine(); // Esperar a que se presione Enter
-
       }
     }
 }

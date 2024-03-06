@@ -2,12 +2,17 @@ import java.util.*;
 
 public class BestFirstSearch extends Search {
 
+    private float [][] costMap;
+
     public BestFirstSearch(float[][] costMap, Heuristic heuristic) {
         super(costMap, heuristic);
+        this.costMap = costMap;
     }
 
     @Override
     public List<State> DoSearch(State initialState, State targetState) {
+        initialState.setCostAcc(costMap[initialState.getRow()][initialState.getCol()]);
+        
         List<State> solució = new ArrayList<>();
         PriorityQueue<State> pends = new PriorityQueue<>((a,b) -> Float.compare(a.getHeuristic(), b.getHeuristic()));
         List<State> visitats = new ArrayList<>();
@@ -15,6 +20,9 @@ public class BestFirstSearch extends Search {
         pends.add(initialState);
 
         while(!pends.isEmpty()){
+
+            incrementNodesVisited();
+
             State currentState = pends.poll();
             if (currentState.equals(targetState)){
                 solució = currentState.getCami();

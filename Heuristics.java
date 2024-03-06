@@ -1,17 +1,26 @@
 public class Heuristics {
     
+    //Heurística basada en distància Manhattan i cost (no admissible)
     public static float Heuristic1(State currentState, State targetState, float[][] map) {
-        float distance = (float) Math.sqrt(Math.pow(targetState.getRow() - currentState.getRow(), 2) + Math.pow(targetState.getCol() - currentState.getCol(), 2));
-        return Math.min(distance, 33.0f); 
+        int dx = Math.abs(targetState.getRow() - currentState.getRow());
+        int dy = Math.abs(targetState.getCol() - currentState.getCol());
+        float distance = dx + dy;
+        float cost = map[currentState.getRow()][currentState.getCol()];
+
+        return distance + cost;
     }  
 
+    //Heurística basada en només distància Euclidiana (no admissible)
     public static float Heuristic2(State currentState, State targetState, float[][] map){
-        float estimatedCost = currentState.getCostAcc() + Heuristic1(currentState, targetState, map);
-        return Math.min(estimatedCost, 33.0f);
+        float dx = targetState.getRow() - currentState.getRow();
+        float dy = targetState.getCol() - currentState.getCol();
+        float distance = (float) Math.sqrt(dx * dx + dy * dy); 
+        
+        return distance;
     }
 
+    //Heurística basada en només cost (Admissible)
     public static float Heuristic3(State currentState, State targetState, float[][] map){
-        float totalEstimatedCost = Heuristic1(currentState, targetState, map) + Heuristic2(currentState, targetState, map);
-        return Math.min(totalEstimatedCost, 33.0f);
+        return map[currentState.getRow()][currentState.getCol()];
     }
 }

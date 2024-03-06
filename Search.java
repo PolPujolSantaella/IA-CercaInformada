@@ -3,11 +3,13 @@ import java.util.List;
 
 public abstract class Search {
     private float[][] costMap;
-    private Heuristic heuristic; 
+    private Heuristic heuristic;
+    private int nodesVisitats; 
 
     public Search(float[][] costMap, Heuristic heuristic){
         this.costMap = costMap;
         this.heuristic = heuristic;
+        nodesVisitats = 0;
     }
 
     public abstract List<State> DoSearch(State initialState, State targetState);  
@@ -41,4 +43,15 @@ public abstract class Search {
     private boolean isValidPosition(int row, int col){
         return row >= 0 && row < costMap.length && col >= 0 && col < costMap[0].length && Float.isFinite(costMap[row][col]);
     }
+
+
+    public int getNodesVisitats(){
+        return nodesVisitats;
+    }
+
+    protected void incrementNodesVisited() {
+        nodesVisitats++;
+    }
+
+    
 }
