@@ -14,16 +14,16 @@ public class BestFirstSearch extends Search {
         initialState.setCostAcc(costMap[initialState.getRow()][initialState.getCol()]);
         
         List<State> solució = new ArrayList<>();
-        PriorityQueue<State> pends = new PriorityQueue<>((a,b) -> Float.compare(a.getHeuristic(), b.getHeuristic()));
+        PriorityQueue<State> pends = new PriorityQueue<>(Comparator.comparingDouble(State::getHeuristic));
         List<State> visitats = new ArrayList<>();
 
         pends.add(initialState);
 
         while(!pends.isEmpty()){
-
             incrementNodesVisited();
 
             State currentState = pends.poll();
+
             if (currentState.equals(targetState)){
                 solució = currentState.getCami();
                 solució.add(currentState);

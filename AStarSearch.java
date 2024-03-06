@@ -3,13 +3,11 @@ import java.util.*;
 public class AStarSearch extends Search {
 
     private float[][] costMap;
-    private Heuristic heuristic;
 
 
     public AStarSearch(float[][] costMap, Heuristic heuristic) {
         super(costMap, heuristic);
         this.costMap = costMap;
-        this.heuristic = heuristic;
     }
 
     @Override
@@ -23,7 +21,6 @@ public class AStarSearch extends Search {
         openSet.add(initialState);
 
         while (!openSet.isEmpty()) {
-
             incrementNodesVisited();
 
             State currentState = openSet.poll();
@@ -45,18 +42,16 @@ public class AStarSearch extends Search {
                 float newCostAcc = currentState.getCostAcc() + costMap[successor.getRow()][successor.getCol()];
                 if (!openSet.contains(successor) || newCostAcc < successor.getCostAcc()) {
                     successor.setCostAcc(newCostAcc);
-                    successor.setHeuristic(heuristic.Evaluate(successor, targetState, costMap));
                     List<State> newCami = currentState.getCami() != null ? new ArrayList<>(currentState.getCami()) : new ArrayList<>();
+                    newCami.add(currentState);
                     successor.setCami(newCami);
-                    successor.getCami().add(currentState);
-
+                    
                     if (!openSet.contains(successor)) {
                         openSet.add(successor);
                     }
                 }
             }
         }
-
 
         return solution.isEmpty() ? null : solution;
     }

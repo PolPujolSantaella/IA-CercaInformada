@@ -62,7 +62,7 @@ public class State {
     @Override
     public boolean equals(Object other) {
        if (this == other) return true;
-       if(other == null || getClass() != other.getClass()) return false;
+       if(!(other instanceof State)) return false;
        State state = (State) other;
        return row == state.row && col == state.col;
     }

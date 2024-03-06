@@ -28,9 +28,7 @@ public abstract class Search {
 
             if(isValidPosition(newRow, newCol)){
                 float newCostAcc = currentState.getCostAcc() + costMap[newRow][newCol];
-
-                float newHeuristic = heuristic.Evaluate(new State(newRow, newCol) ,targetState, costMap);
-
+                float newHeuristic = calculateHeuristic(newRow, newCol, targetState);
                 State newState = new State(newRow, newCol, currentState.getCami(), newHeuristic, newCostAcc);
 
                 successors.add(newState);
@@ -44,6 +42,9 @@ public abstract class Search {
         return row >= 0 && row < costMap.length && col >= 0 && col < costMap[0].length && Float.isFinite(costMap[row][col]);
     }
 
+    private float calculateHeuristic(int newRow, int newCol, State targetState) {
+        return heuristic.Evaluate(new State(newRow, newCol), targetState, costMap);
+    }
 
     public int getNodesVisitats(){
         return nodesVisitats;
