@@ -40,6 +40,10 @@ public class Map {
         return costMap;
     }
 
+    public int getLength(){
+        return charMap.length;
+    }
+
     public String toString(){
         String text = "";
 

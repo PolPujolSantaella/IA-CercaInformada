@@ -1,5 +1,7 @@
 import java.util.List;
 
+import javax.lang.model.util.Elements.Origin;
+
 public class Main {
 
     public static char[][] OriginalCharMap = {
@@ -17,20 +19,20 @@ public class Main {
     public static Map OriginalMap = new Map(OriginalCharMap);
 
     public static char[][] CustomCharMap = {
-      {'N','N','N','N','N'},
-      {'N','N','N','N','N'},
-      {'N','N','N','N','N'},
-      {'N','N','N','N','N'},
-      {'N','N','N','N','N'},
+      {'P','A','P','C','P'},
+      {'N','B','N','N','N'},
+      {'P','P','N','N','N'},
+      {'C','N','N','A','N'},
+      {'C','N','N','N','C'},
     };
     public static Map CustomMap = new Map(CustomCharMap);
 
-    public static void main(String args[]){      
+    public static void main(String args[]){ 
 
       Map map = OriginalMap;
 
       State iniState = new State (0, 0);
-      State finalState = new State(9, 9);
+      State finalState = new State(map.getLength()-1, map.getLength()-1);
 
       // Declare heuristics
       Heuristic[] heuristics = new Heuristic[3];
@@ -56,14 +58,19 @@ public class Main {
 
         long end = System.currentTimeMillis();
 
+        System.out.println("------------------------------------------------");
         System.out.println("Resultados del algoritmo " + (i + 1) + ":");
         if (path.isEmpty()) {
             System.out.println("No se encontró un camino.");
         } else {
             System.out.println("Camino encontrado:");
+            float cost = 0;
             for (State state : path) {
-                System.out.println("(" + state.getRow() + ", " + state.getCol() + ") Coste: " + state.getCostAcc()) ;
+                System.out.print("(" + state.getRow() + ", " + state.getCol() + ")");
+                cost = state.getCostAcc();
             }
+
+            System.out.println("\nCost Final: "+ cost); 
 
             long elapsedTime = end - start;
             double seconds = elapsedTime / 1000.0;
