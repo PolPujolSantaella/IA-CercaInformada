@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,6 +13,7 @@ public class State {
     public State (int row, int col){
         this.row = row;
         this.col = col;
+        this.cami = new ArrayList<>();
     }
     
     public State (int row, int col, List<State> cami, float heuristic, float costAcc){

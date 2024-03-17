@@ -50,7 +50,7 @@ public abstract class Search {
         return nodesVisitats;
     }
 
-    protected void incrementNodesVisited() {
+    protected void incrementNodesVisitats() {
         nodesVisitats++;
     }
 

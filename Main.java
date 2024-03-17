@@ -17,11 +17,11 @@ public class Main {
     public static Map OriginalMap = new Map(OriginalCharMap);
 
     public static char[][] CustomCharMap = {
-      {'P','A','P','C','P'},
-      {'N','B','N','N','N'},
-      {'P','P','N','N','N'},
-      {'C','N','N','A','N'},
-      {'C','N','N','N','C'},
+      {'C','C','C','C','P'},
+      {'C','M','M','M','C'},
+      {'C','M','A','C','C'},
+      {'C','M','C','M','A'},
+      {'C','C','C','M','C'},
     };
     public static Map CustomMap = new Map(CustomCharMap);
 

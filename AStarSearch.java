@@ -12,47 +12,61 @@ public class AStarSearch extends Search {
 
     @Override
     public List<State> DoSearch(State initialState, State targetState) {
-
-        List<State> solution = new ArrayList<>();
-        PriorityQueue<State> openSet = new PriorityQueue<>(Comparator.comparingDouble(State::getTotalCost));
-        Set<State> closedSet = new HashSet<>();
-
+        //1. Inicialitzacions
         initialState.setCostAcc(costMap[initialState.getRow()][initialState.getCol()]);
-        openSet.add(initialState);
+        PriorityQueue<State> pends = new PriorityQueue<>(Comparator.comparingDouble(State::getTotalCost));
+        HashSet<State> visitats = new HashSet<>();
+        List<State> path = new ArrayList<>();
 
-        while (!openSet.isEmpty()) {
-            incrementNodesVisited();
+        //2. Afegim l'estat inicial a la cua de pendents
+        pends.add(initialState);
 
-            State currentState = openSet.poll();
+        //3. Mentres la cua de pendents no estigui buida
+        while (!pends.isEmpty()) {
 
+            //3.1 Agafem el primer de la cua
+            State currentState = pends.poll();
+
+            //3.2 Si és igual a l'estat final retornem el camí trobat
             if (currentState.equals(targetState)) {
-                solution = currentState.getCami();
-                solution.add(currentState);
+                path = currentState.getCami();
+                path.add(currentState);
                 break;
             }
 
-            closedSet.add(currentState);
-
+            //3.3 Sino Iterem cada successor
             List<State> successors = EvaluateOperators(currentState, targetState);
             for (State successor : successors) {
-                if (closedSet.contains(successor)) {
-                    continue;
-                }
-
+                //3.4 Calculem el nou cost acumulat per arribar al successor
                 float newCostAcc = currentState.getCostAcc() + costMap[successor.getRow()][successor.getCol()];
-                if (!openSet.contains(successor) || newCostAcc < successor.getCostAcc()) {
-                    successor.setCostAcc(newCostAcc);
-                    List<State> newCami = currentState.getCami() != null ? new ArrayList<>(currentState.getCami()) : new ArrayList<>();
-                    newCami.add(currentState);
-                    successor.setCami(newCami);
-                    
-                    if (!openSet.contains(successor)) {
-                        openSet.add(successor);
+                //3.5 Si no està visitat
+                if (!visitats.contains(successor)) {
+                    //3.6 Si no està en pendents
+                    if (!pends.contains(successor)) {
+                        //3.7 Actualitzem el cost acumulat i el camí
+                        successor.setCostAcc(newCostAcc);
+                        List<State> newCami = new ArrayList<>(currentState.getCami()); 
+                        newCami.add(currentState);
+                        successor.setCami(newCami);
+                        pends.add(successor);
+                    } else if (newCostAcc < successor.getCostAcc()){
+                        //3.8 Si el successor està a pendents i el nou cost es menor
+                        //Sobreescribim (Borrem) el successor i agreguem el nou
+                        pends.remove(successor);
+                        successor.setCostAcc(newCostAcc);
+                        List<State> newCami = new ArrayList<>(currentState.getCami()); 
+                        newCami.add(currentState);
+                        successor.setCami(newCami);
+                        pends.add(successor);
                     }
                 }
             }
+            //3.9 Agreguem el estat actual als visitats i augmentem nodesVisitats
+            visitats.add(currentState);
+            incrementNodesVisitats();
         }
 
-        return solution.isEmpty() ? null : solution;
+        //4. Retornem camí trobat
+        return path.isEmpty() ? null : path;
     }
 }
